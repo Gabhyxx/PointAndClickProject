@@ -46,7 +46,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Quaternion toRotation = Quaternion.LookRotation(currentVelocity, Vector3.up);
 
-            rb.rotation = Quaternion.RotateTowards(rb.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            //rb.rotation = Quaternion.RotateTowards(rb.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            rb.rotation = toRotation;
         }
     }
 }
