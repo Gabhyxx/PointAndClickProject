@@ -12,19 +12,22 @@ public class PlayerInteract : MonoBehaviour
     private bool canServe = false;
 
     private int serveTable = -1;
-    private ItemDisplay[] listItems;
+    private List<ItemDisplay> listItems;
+    private GameObject tray;
 
     [SerializeField] GameObject gameInfo;
     [SerializeField] GameObject trayHolder;
-    [SerializeField] GameObject tray;
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Tray" && !isGrabbing)
+        if (other.gameObject.tag == "Tray" && !isGrabbing)
         {
             canGrab = true;
+            tray = other.gameObject;
         }
 
+        
         if(other.gameObject.tag == "Table" && isGrabbing)
         {
             canServe = true;
@@ -37,6 +40,7 @@ public class PlayerInteract : MonoBehaviour
         if (other.gameObject.tag == "Tray" && !isGrabbing)
         {
             canGrab = false;
+            tray = null;
         }
         if (other.gameObject.tag == "Table" && isGrabbing)
         {
@@ -59,7 +63,7 @@ public class PlayerInteract : MonoBehaviour
             if (canServe && tray.GetComponent<TrayInfo>().GetTargetTable() == serveTable)
             {
                 Debug.Log("Sirviendo");
-                for(int i=0; i < listItems.Length; i++)
+                for (int i=0; i < listItems.Count; i++)
                 {
                     SeatInfo[] currentSeats = gameInfo.GetComponent<GameInfo>().GetTables().ElementAt(serveTable - 1).GetComponentsInChildren<SeatInfo>();
                     for(int j=0; j<currentSeats.Length; j++)
@@ -69,13 +73,25 @@ public class PlayerInteract : MonoBehaviour
                             listItems.ElementAt(i).transform.parent = currentSeats[j].transform;
                             listItems.ElementAt(i).transform.position = currentSeats[j].transform.position;
                             listItems = tray.GetComponent<TrayInfo>().GetItemsOnTray();
+                            i--;
+                            currentSeats[j].SetOrder1(-1);
                             break;
 
+                        } else if (currentSeats[j].GetOrder2() == listItems.ElementAt(i).item.id)
+                        {
+                            listItems.ElementAt(i).transform.parent = currentSeats[j].transform;
+                            listItems.ElementAt(i).transform.position = currentSeats[j].transform.position;
+                            listItems = tray.GetComponent<TrayInfo>().GetItemsOnTray();
+                            i--;
+                            currentSeats[j].SetOrder2(-1);
+                            break;
                         }
-                        
+
+
                     }
                     
                 }
+                tray.GetComponent<TrayInfo>().SetTargetTable(-1);
                 
             }
             else

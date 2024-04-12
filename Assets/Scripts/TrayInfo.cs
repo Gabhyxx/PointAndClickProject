@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class TrayInfo : MonoBehaviour
 {
-    private int targetTable;
+    [SerializeField] int targetTable;
 
     public int GetTargetTable()
     {
         return targetTable;
     }
 
-    public void setTargetTable(int targetTable)
+    public void SetTargetTable(int targetTable)
     {
         this.targetTable = targetTable;
     }
 
-    public ItemDisplay[] GetItemsOnTray() {
-        return GetComponentsInChildren<ItemDisplay>();
+    public List<ItemDisplay> GetItemsOnTray() {
+        ItemDisplay[] items = GetComponentsInChildren<ItemDisplay>();
+        List<ItemDisplay> itemsResult = new List<ItemDisplay>();
+        for(int i=0; i < items.Length; i++)
+        {
+            if (items[i].model != null)
+            {
+                itemsResult.Add(items[i]);
+            }
+        }
+        return itemsResult;
     }
 
-    private void Start()
-    {
-        targetTable = 1;
-    }
+    
 }

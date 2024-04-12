@@ -9,9 +9,14 @@ public class ItemDisplay : MonoBehaviour
     public GameObject model;
     void Start()
     {
-        model = item.model;
+        if (item != null)
+        {
+            model = item.model;
+            GameObject cloneItem = Instantiate(model, transform);
+        }
+        
 
         
-        GameObject cloneItem = Instantiate(model, transform);
+        
     }
 }
