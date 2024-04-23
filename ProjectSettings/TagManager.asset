@@ -7,11 +7,12 @@ TagManager:
   - Tray
   - Table
   - TraySpot
+  - Customer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

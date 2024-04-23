@@ -6,7 +6,7 @@ public class SeatInfo : MonoBehaviour
 {
     [SerializeField] int order1 = -1;
     [SerializeField] int order2 = -1;
-
+    private bool isEmpty;
     public int GetOrder1()
     {
         return order1;
