@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,15 @@ using UnityEngine.AI;
 public class CustomerController : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Transform exit;
     private GameInfo gameInfo;
     [SerializeField] int tableID;
     private Vector3 destination;
 
+    public int GetTableID()
+    {
+        return tableID;
+    }
     public void SetTableID(int tableID)
     {
         this.tableID = tableID;
@@ -18,6 +24,15 @@ public class CustomerController : MonoBehaviour
 
     public void SetDestination(int tableID)
     {
+        GetComponent<NavMeshAgent>().enabled = true;
+        if (tableID == -1)
+        {
+            this.tableID = tableID;
+
+            agent.destination = exit.position;
+            
+        }
+
         gameInfo = GameObject.Find("GameInfo").GetComponent<GameInfo>();
         List<GameObject> tables = gameInfo.GetTables();
         foreach (GameObject table in tables)
@@ -39,6 +54,5 @@ public class CustomerController : MonoBehaviour
         agent.SetDestination(destination);
     }
 
-
-
+    
 }

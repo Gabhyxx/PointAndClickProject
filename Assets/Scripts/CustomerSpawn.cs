@@ -7,16 +7,22 @@ public class CustomerSpawn : MonoBehaviour
 {
     [SerializeField] GameObject customerPrefab;
     [SerializeField] GameInfo gameInfo;
-    private int seatsTaken = 0;
+    [SerializeField] int seatsTaken = 0;
 
+    public int GetSeatsTaken()
+    {
+        return seatsTaken;
+    }
+    public void SetSeatsTaken(int seatsTaken)
+    {
+        this.seatsTaken = seatsTaken;
+    }
     IEnumerator SpawnCustomers(float time)
     {
         gameInfo.SetMaxNumberOfSeatsUsed(Random.Range(12,20));
         yield return new WaitForSeconds(time);
-        while (true)
+        while (true) 
         {
-            Debug.Break();
-            Debug.Log("EMPIEZA");
             if (gameInfo.GetGroupTablesAvailable() + gameInfo.GetCounterSeatsAvailable() > 0)
             {
                 List<GameObject> listTables = gameInfo.GetTables();
@@ -35,32 +41,29 @@ public class CustomerSpawn : MonoBehaviour
                     {
                         if (gameInfo.GetMaxNumberOfSeatsUsed() - seatsTaken < 4)
                         {
-                            randomNumber = Random.Range(1, gameInfo.GetMaxNumberOfSeatsUsed() - seatsTaken);
+                            randomNumber = Random.Range(1, gameInfo.GetMaxNumberOfSeatsUsed() - seatsTaken + 1);
                         } else
                         {
-                            randomNumber = Random.Range(1, 4);
+                            randomNumber = Random.Range(1, 5);
                         }
                         
                     }
                     else
                     {
-                        randomNumber = Random.Range(1, 2);
+                        randomNumber = Random.Range(1, 3);
                     }
                     
                 } else
                 {
                     randomNumber = 0;
                 }
-                
+
                 List<int> destinationIDs = gameInfo.DestinationCustomers(randomNumber);
                 seatsTaken += destinationIDs.Count;
-                Debug.Log("Random number: " + randomNumber + "\nList tamaño: " + destinationIDs.Count);
                 
                 for (int i = 0; i < randomNumber; i++)
                 {
-                    Debug.Log(i + ") " + destinationIDs[i]);
                     GameObject customerInScene = Instantiate(customerPrefab, transform.GetChild(i));
-                    Debug.Log("Customer instanciado");
                     customerInScene.GetComponent<CustomerController>().SetDestination(destinationIDs[i]);
                     if (destinationIDs[i] > 4)
                     {
@@ -88,14 +91,13 @@ public class CustomerSpawn : MonoBehaviour
                     }
                 }
             }
-            time = Random.Range(10, 30);
-            Debug.Log("FINAL");
+            time = Random.Range(10, 31);
             yield return new WaitForSeconds(time);
         }
     }
     private void Start()
     {
 
-        StartCoroutine(SpawnCustomers(Random.Range(10,30)));
+        StartCoroutine(SpawnCustomers(Random.Range(10,31)));
     }
 }

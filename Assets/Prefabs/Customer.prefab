@@ -125,12 +125,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1170672437775772408}
   - component: {fileID: 3830031624549676232}
-  - component: {fileID: 8932658984838276316}
+  - component: {fileID: 4422473914415143140}
   - component: {fileID: 1505742985490965651}
   - component: {fileID: 8546624091066590844}
   m_Layer: 0
   m_Name: Customer
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,8 +178,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &8932658984838276316
-BoxCollider:
+--- !u!136 &4422473914415143140
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -196,9 +196,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.66, y: 1.8, z: 0.75}
-  m_Center: {x: 0, y: 1, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.1188257
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.1466533, z: 0}
 --- !u!195 &1505742985490965651
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -234,5 +236,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1505742985490965651}
-  gameInfo: {fileID: 4065055573865623054, guid: d5706adba1386a544b7098de091b27cb,
-    type: 3}
+  exit: {fileID: 8354202186729244544, guid: a4bbf688b4f5ea642923c34b058f6b06, type: 3}
+  tableID: 0

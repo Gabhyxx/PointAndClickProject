@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,4 +24,14 @@ public class SeatInfo : MonoBehaviour
     {
         this.order2 = order2;
     }
+    public bool GetIsEmpty()
+    {
+        return isEmpty;
+    }
+    public void SetIsEmpty(bool isEmpty)
+    {
+        this.isEmpty = isEmpty;
+    }
+
+    
 }

@@ -48,12 +48,8 @@ public class GameInfo : MonoBehaviour
         List<int> listDestinationID = new List<int>();
         if (numCustomer > 2)
         {
-            int destinationID = Random.Range(1, 4);
-            while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable==0)
-            {
-                Debug.Log("WHILE 1");
-                destinationID = Random.Range(1, 4);
-            }
+            int destinationID = GetRandomAvailableTable(numCustomer);
+           
             for(int i = 0; i < numCustomer; i++)
             {
                 listDestinationID.Add(destinationID);
@@ -65,15 +61,12 @@ public class GameInfo : MonoBehaviour
         {
             int destinationID = -1;
             if (counterSeatsAvailable >= numCustomer && groupTablesAvailable > 0) {
-                Debug.Log("if 1");
                 if (numCustomer == 1)
                 {
-                    if (IsSeatTypeCounter(75))
+                    if (IsSeatTypeCounter(0))
                     {
-                        Debug.Log("Counter");
                         for (int i = 4; i < 8; i++)
                         {
-                            Debug.Log("i = "+i);
                             if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
                             {
                                 destinationID = i+1;
@@ -86,8 +79,7 @@ public class GameInfo : MonoBehaviour
                     {
                         do
                         {
-                            Debug.Log("Do while");
-                            destinationID = Random.Range(1, 4);
+                            destinationID = Random.Range(1, 5);
 
                         } while (tables.ElementAt(destinationID-1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0);
                         listDestinationID.Add(destinationID);
@@ -113,7 +105,7 @@ public class GameInfo : MonoBehaviour
                     }
                     else
                     {
-                        destinationID = Random.Range(1, 4);
+                        destinationID = Random.Range(1, 5);
                         for(int i=0; i < 4; i++)
                         {
                             if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
@@ -132,13 +124,10 @@ public class GameInfo : MonoBehaviour
             }
             else if(counterSeatsAvailable < numCustomer && groupTablesAvailable > 0)
             {
-                Debug.Log("if 2");
-                destinationID = Random.Range(1, 4);
-                Debug.Log(tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken());
+                destinationID = Random.Range(1, 5);
                 while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
                 {
-                    Debug.Log("WHILE 2");
-                    destinationID = Random.Range(1, 4);
+                    destinationID = Random.Range(1, 5);
                 }
                 for (int i = 0; i < numCustomer; i++)
                 {
@@ -148,7 +137,6 @@ public class GameInfo : MonoBehaviour
                 groupTablesAvailable--;
             }
             else {
-                Debug.Log("if 3");
                 destinationID = Random.Range(5, 8);
                 if (numCustomer == 1)
                 {
@@ -161,6 +149,7 @@ public class GameInfo : MonoBehaviour
                         }
                     }
                     listDestinationID.Add(destinationID);
+                    counterSeatsAvailable--;
                 }
                 else
                 {
@@ -174,6 +163,7 @@ public class GameInfo : MonoBehaviour
                     }
                     listDestinationID.Add(destinationID);
                     listDestinationID.Add(destinationID + 1);
+                    counterSeatsAvailable-=2;
                 }
 
             }
@@ -181,9 +171,24 @@ public class GameInfo : MonoBehaviour
         return listDestinationID;
     }
 
+    private int GetRandomAvailableTable(int numCustomer)
+    {
+        int destinationID = Random.Range(1, 5);
+        while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
+        {
+            destinationID = Random.Range(1, 5);
+            if (groupTablesAvailable == 0)
+            {
+                return -1;
+            }
+        }
+        
+        return destinationID;
+    }
+
     private bool IsSeatTypeCounter(float probability)
     {
-        int randomNumber = Random.Range(1, 100);
+        int randomNumber = Random.Range(1, 101);
         if (randomNumber <= probability)
         {
             return true;
