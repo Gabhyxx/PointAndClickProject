@@ -13,9 +13,11 @@ public class UserInterfaceSettings : MonoBehaviour
     Resolution[] resolutions;
     
     int resolutionIndex;
+    public bool isApplied;
 
     private void Start()
     {
+        isApplied = false;
         resolutions = Screen.resolutions;
         resolutionIndex = Screen.resolutions.Length - 1;
     }
@@ -23,6 +25,20 @@ public class UserInterfaceSettings : MonoBehaviour
     private void Update()
     {
         SetResolutions();
+        Debug.Log(isApplied);
+    }
+
+    public void CorroutineApply()
+    {
+        StartCoroutine(ApplyChanges());
+    }
+
+    IEnumerator ApplyChanges()
+    {
+        isApplied = true;
+        yield return new WaitForEndOfFrame();
+        isApplied = false;
+        yield break;
     }
 
     private void SetResolutions()
