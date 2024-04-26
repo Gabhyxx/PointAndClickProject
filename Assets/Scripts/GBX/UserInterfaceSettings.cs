@@ -24,7 +24,11 @@ public class UserInterfaceSettings : MonoBehaviour
 
     private void Update()
     {
-        SetResolutions();
+        if (isApplied == true)
+        {
+            SetResolutions();
+        }
+        
         Debug.Log(isApplied);
     }
 
