@@ -12,6 +12,7 @@ public class TableInfo : MonoBehaviour
     [SerializeField] bool isCounter;
     [SerializeField] GameObject spawnCustomers;
     [SerializeField] bool customerOnPlace;
+    [SerializeField] GameObject playerOnTable;
     
     public int GetId()
     {
@@ -31,61 +32,97 @@ public class TableInfo : MonoBehaviour
     {
         return isCounter;
     }
-    
-    public void ReadyToOrderDrink()
+
+    public GameObject GetPlayerOnTable()
     {
-        StartCoroutine(WaitToOrderDrink());
+        return playerOnTable;
+    }
+    public void SetPlayerOnTable(GameObject playerOnTable)
+    {
+        this.playerOnTable = playerOnTable;
+    }
+    
+    public void ReadyToOrder()
+    {
+        StartCoroutine(WaitOrder());
     }
 
-    IEnumerator WaitToOrderDrink()
+    IEnumerator WaitOrder()
     {
-        yield return new WaitForSeconds(60);
+        float timeCounter = 0;
+
+        Debug.Log("Mesa " + id + " lista para pedir");
+        while (timeCounter < 60)
+        {
+            timeCounter += Time.deltaTime;
+            if(playerOnTable != null && Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Tomando nota");
+                List<int> tableOrders = new List<int>();
+                List<GameObject> listSeatsTable = GetListSeatsTable();
+                foreach (GameObject seat in listSeatsTable)
+                {
+                    tableOrders.Add(seat.GetComponent<SeatInfo>().GetOrder1());
+                    tableOrders.Add(seat.GetComponent<SeatInfo>().GetOrder2());
+                }
+                playerOnTable.GetComponent<PlayerInfo>().WriteNotes(id, tableOrders);
+                yield break;
+            }
+            yield return null;
+        }
+        
         CustomersLeave();
     }
 
-    private void CustomersLeave()
+    public List<GameObject> GetListCustomersTable()
     {
         List<GameObject> listCustomersTable = new List<GameObject>();
-        //Comprobar que customer esta presente
         if (!isCounter)
         {
-            if (transform.GetChild(2).GetChild(0).childCount == 3)
-            {
-                listCustomersTable.Add(transform.GetChild(2).GetChild(0).GetChild(2).gameObject);
-            }
             if (transform.GetChild(2).GetChild(1).childCount == 3)
             {
                 listCustomersTable.Add(transform.GetChild(2).GetChild(1).GetChild(2).gameObject);
             }
-            if (transform.GetChild(3).GetChild(0).childCount == 3)
+            if (transform.GetChild(2).GetChild(2).childCount == 3)
             {
-                listCustomersTable.Add(transform.GetChild(3).GetChild(0).GetChild(2).gameObject);
+                listCustomersTable.Add(transform.GetChild(2).GetChild(2).GetChild(2).gameObject);
             }
             if (transform.GetChild(3).GetChild(1).childCount == 3)
             {
                 listCustomersTable.Add(transform.GetChild(3).GetChild(1).GetChild(2).gameObject);
             }
-            foreach (GameObject customer in listCustomersTable)
+            if (transform.GetChild(3).GetChild(2).childCount == 3)
             {
-                customer.transform.position = tableDetector.transform.position;
-                customer.GetComponent<CustomerController>().SetDestination(-1);
+                listCustomersTable.Add(transform.GetChild(3).GetChild(2).GetChild(2).gameObject);
             }
-            gameInfo.SetGroupTablesAvailable(gameInfo.GetGroupTablesAvailable() + 1);
-            isTaken = false;
-        } else
+        }
+        else
         {
             if (transform.GetChild(1).childCount == 3)
             {
                 listCustomersTable.Add(transform.GetChild(1).GetChild(2).gameObject);
             }
-            foreach (GameObject customer in listCustomersTable)
-            {
-                customer.transform.position = tableDetector.transform.position;
-                customer.GetComponent<CustomerController>().SetDestination(-1);
-            }
-            gameInfo.SetCounterSeatsAvailable(gameInfo.GetCounterSeatsAvailable() + 1);
-            isTaken = false;
         }
+        return listCustomersTable;
+    }
+    private void CustomersLeave()
+    {
+        List<GameObject> listCustomersTable = GetListCustomersTable();
+        foreach (GameObject customer in listCustomersTable)
+        {
+            customer.transform.position = tableDetector.transform.position;
+            customer.GetComponent<CustomerController>().SetDestination(-1);
+        }
+        gameInfo.SetGroupTablesAvailable(gameInfo.GetGroupTablesAvailable() + 1);
+        isTaken = false;
+        
+        foreach (GameObject customer in listCustomersTable)
+        {
+            customer.transform.position = tableDetector.transform.position;
+            customer.GetComponent<CustomerController>().SetDestination(-1);
+        }
+        gameInfo.SetCounterSeatsAvailable(gameInfo.GetCounterSeatsAvailable() + 1);
+        isTaken = false;
         spawnCustomers.GetComponent<CustomerSpawn>().SetSeatsTaken(spawnCustomers.GetComponent<CustomerSpawn>().GetSeatsTaken()-listCustomersTable.Count);
         customerOnPlace = false;
         
@@ -99,5 +136,33 @@ public class TableInfo : MonoBehaviour
     public void SetCustomerOnPlace(bool customerOnPlace)
     {
         this.customerOnPlace = customerOnPlace;
+    }
+
+    internal void ThinkingOrder()
+    {
+        StartCoroutine(TableThinkingOrder());
+        
+    }
+
+    IEnumerator TableThinkingOrder()
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(3,16));
+        List<GameObject> listSeatsTable = GetListSeatsTable();
+        foreach (GameObject seat in listSeatsTable)
+        {
+            seat.GetComponent<SeatInfo>().SetRandomOrder();
+        }
+        ReadyToOrder();
+    }
+
+    private List<GameObject> GetListSeatsTable()
+    {
+        List<GameObject> listSeats = new List<GameObject>();
+        List<GameObject> listCustomers = GetListCustomersTable();
+        foreach(GameObject customer in listCustomers)
+        {
+            listSeats.Add(customer.transform.parent.gameObject);
+        }
+        return listSeats;
     }
 }

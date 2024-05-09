@@ -17,9 +17,19 @@ public class TableDetector : MonoBehaviour
             if (other.gameObject.GetComponent<CustomerController>().GetTableID() == transform.parent.gameObject.GetComponent<TableInfo>().GetId())
             {
                 SitCustomer(other.gameObject);
-            }
-            
-            
+            }   
+        }
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            transform.parent.gameObject.GetComponent<TableInfo>().SetPlayerOnTable(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            transform.parent.gameObject.GetComponent<TableInfo>().SetPlayerOnTable(null);
         }
     }
 
@@ -60,9 +70,12 @@ public class TableDetector : MonoBehaviour
         if (!transform.parent.gameObject.GetComponent<TableInfo>().GetCustomerOnPlace())
         {
             transform.parent.gameObject.GetComponent<TableInfo>().SetCustomerOnPlace(true);
-            transform.parent.gameObject.GetComponent<TableInfo>().ReadyToOrderDrink();
+            transform.parent.gameObject.GetComponent<TableInfo>().ThinkingOrder();
+            //transform.parent.gameObject.GetComponent<TableInfo>().ReadyToOrderDrink();
         }
-        
+        customer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+
     }
 
     

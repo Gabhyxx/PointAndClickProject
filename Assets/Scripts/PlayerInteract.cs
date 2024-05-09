@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerInteract : MonoBehaviour
 {
     private bool isGrabbing = false;
-    private bool canGrab = false;
-    private bool canServe = false;
+    [SerializeField] bool canGrab;
+    [SerializeField] bool canServe = false;
 
     private int serveTable = -1;
     private List<ItemDisplay> listItems;
@@ -18,14 +18,18 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] GameObject gameInfo;
     [SerializeField] GameObject trayHolder;
+    [SerializeField] GameObject chef;
     
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Tray" && !isGrabbing)
+        if (other.gameObject.tag == "Tray")
         {
-            canGrab = true;
-            tray = other.gameObject;
+            if (other.gameObject.GetComponent<TrayInfo>().GetIsReady())
+            {
+                canGrab = true;
+                tray = other.gameObject;
+            }
         }
 
         
@@ -48,7 +52,7 @@ public class PlayerInteract : MonoBehaviour
             canGrab = false;
             tray = null;
         }
-        if (other.gameObject.tag == "Table" && isGrabbing)
+        if (other.gameObject.tag == "Table")
         {
             canServe = false;
             serveTable = -1;
@@ -70,11 +74,10 @@ public class PlayerInteract : MonoBehaviour
                 isGrabbing = true;
                 listItems = tray.GetComponent<TrayInfo>().GetItemsOnTray();
             }
-            if (canServe && tray.GetComponent<TrayInfo>().GetTargetTable() == serveTable)
+            if (canServe && tray !=null && tray.GetComponent<TrayInfo>().GetTargetTable() == serveTable)
             {
-                Debug.Log("Sirviendo");
+                canServe = false;
                 ServeToTable();
-                
             }
 
             if (isGrabbing && traySpot != null && traySpot.transform.childCount == 0)
@@ -95,20 +98,16 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (currentSeats[j].GetOrder1() == listItems.ElementAt(i).item.id)
                 {
-                    listItems.ElementAt(i).transform.parent = currentSeats[j].transform.GetChild(0);
-                    listItems.ElementAt(i).transform.position = currentSeats[j].transform.GetChild(0).position;
-                    listItems = tray.GetComponent<TrayInfo>().GetItemsOnTray();
-                    i--;
+                    listItems.ElementAt(i).transform.GetChild(0).parent = currentSeats[j].transform.GetChild(0);
+                    currentSeats[j].transform.GetChild(0).GetChild(0).position = currentSeats[j].transform.GetChild(0).position;
                     currentSeats[j].SetOrder1(-1);
                     break;
 
                 }
                 else if (currentSeats[j].GetOrder2() == listItems.ElementAt(i).item.id)
                 {
-                    listItems.ElementAt(i).transform.parent = currentSeats[j].transform.GetChild(1);
-                    listItems.ElementAt(i).transform.position = currentSeats[j].transform.GetChild(1).position;
-                    listItems = tray.GetComponent<TrayInfo>().GetItemsOnTray();
-                    i--;
+                    listItems.ElementAt(i).transform.GetChild(0).parent = currentSeats[j].transform.GetChild(1);
+                    currentSeats[j].transform.GetChild(1).GetChild(0).position = currentSeats[j].transform.GetChild(1).position;
                     currentSeats[j].SetOrder2(-1);
                     break;
                 }
@@ -118,11 +117,18 @@ public class PlayerInteract : MonoBehaviour
 
         }
         tray.GetComponent<TrayInfo>().SetTargetTable(-1);
+        tray.GetComponent<TrayInfo>().SetIsReady(false);
     }
 
     private void Update()
     {
         PlayerInput();
     }
+
+    private void Start()
+    {
+        chef = GameObject.Find("Chef");
+    }
+    
 
 }

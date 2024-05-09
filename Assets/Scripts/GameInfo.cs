@@ -46,128 +46,135 @@ public class GameInfo : MonoBehaviour
     public List<int> DestinationCustomers(int numCustomer)
     {
         List<int> listDestinationID = new List<int>();
-        if (numCustomer > 2)
+        if (numCustomer != 0)
         {
-            int destinationID = GetRandomAvailableTable(numCustomer);
-           
-            for(int i = 0; i < numCustomer; i++)
+            if (numCustomer > 2)
             {
-                listDestinationID.Add(destinationID);
-            }
-            tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().SetIsTaken(true);
-            groupTablesAvailable--;
-        }
-        else
-        {
-            int destinationID = -1;
-            if (counterSeatsAvailable >= numCustomer && groupTablesAvailable > 0) {
-                if (numCustomer == 1)
+                int destinationID = GetRandomAvailableTable(numCustomer);
+                for (int i = 0; i < numCustomer; i++)
                 {
-                    if (IsSeatTypeCounter(0))
+                    listDestinationID.Add(destinationID);
+                }
+                tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().SetIsTaken(true);
+                groupTablesAvailable--;
+            }
+            else
+            {
+                int destinationID = -1;
+                if (counterSeatsAvailable >= numCustomer && groupTablesAvailable > 0)
+                {
+                    if (numCustomer == 1)
+                    {
+                        if (IsSeatTypeCounter(75))
+                        {
+                            for (int i = 4; i < 8; i++)
+                            {
+                                if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
+                                {
+                                    destinationID = i + 1;
+                                    break;
+                                }
+                            }
+                            listDestinationID.Add(destinationID);
+                            counterSeatsAvailable--;
+                        }
+                        else
+                        {
+                            do
+                            {
+                                destinationID = Random.Range(1, 5);
+
+                            } while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0);
+                            listDestinationID.Add(destinationID);
+                            tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().SetIsTaken(true);
+                            groupTablesAvailable--;
+                        }
+
+                    }
+                    else if (numCustomer == 2)
+                    {
+                        if (IsSeatTypeCounter(40))
+                        {
+                            for (int i = 4; i < 7; i++)
+                            {
+                                if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken() && !tables.ElementAt(i + 1).GetComponent<TableInfo>().GetIsTaken())
+                                {
+                                    destinationID = i + 1;
+                                    break;
+                                }
+                            }
+                            listDestinationID.Add(destinationID);
+                            listDestinationID.Add(destinationID + 1);
+                            counterSeatsAvailable -= 2;
+                        }
+                        else
+                        {
+                            destinationID = Random.Range(1, 5);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
+                                {
+                                    destinationID = i + 1;
+                                }
+
+                            }
+                            for (int i = 0; i < 2; i++)
+                            {
+                                listDestinationID.Add(destinationID);
+                            }
+                            groupTablesAvailable--;
+                        }
+                    }
+                }
+                else if (counterSeatsAvailable < numCustomer && groupTablesAvailable > 0)
+                {
+                    destinationID = Random.Range(1, 5);
+                    while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
+                    {
+                        destinationID = Random.Range(1, 5);
+                    }
+                    for (int i = 0; i < numCustomer; i++)
+                    {
+
+                        listDestinationID.Add(destinationID);
+                    }
+                    groupTablesAvailable--;
+                }
+                else
+                {
+                    destinationID = Random.Range(5, 8);
+                    if (numCustomer == 1)
                     {
                         for (int i = 4; i < 8; i++)
                         {
                             if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
                             {
-                                destinationID = i+1;
+                                destinationID = i + 1;
                                 break;
                             }
                         }
                         listDestinationID.Add(destinationID);
                         counterSeatsAvailable--;
-                    } else
-                    {
-                        do
-                        {
-                            destinationID = Random.Range(1, 5);
-
-                        } while (tables.ElementAt(destinationID-1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0);
-                        listDestinationID.Add(destinationID);
-                        tables.ElementAt(destinationID-1).GetComponent<TableInfo>().SetIsTaken(true);
-                        groupTablesAvailable--;
                     }
-
-                } else if(numCustomer == 2)
-                {
-                    if (IsSeatTypeCounter(40))
+                    else
                     {
-                        for(int i = 4; i<8; i++)
+                        for (int i = 4; i < 8; i++)
                         {
-                            if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken() && !tables.ElementAt(i+1).GetComponent<TableInfo>().GetIsTaken())
+                            if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
                             {
                                 destinationID = i + 1;
                                 break;
                             }
                         }
                         listDestinationID.Add(destinationID);
-                        listDestinationID.Add(destinationID+1);
+                        listDestinationID.Add(destinationID + 1);
                         counterSeatsAvailable -= 2;
                     }
-                    else
-                    {
-                        destinationID = Random.Range(1, 5);
-                        for(int i=0; i < 4; i++)
-                        {
-                            if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
-                            {
-                                destinationID = i + 1;
-                            }
-                            
-                        }
-                        for (int i = 0; i < 2; i++)
-                        {
-                            listDestinationID.Add(destinationID);
-                        }
-                        groupTablesAvailable--;
-                    }
-                }
-            }
-            else if(counterSeatsAvailable < numCustomer && groupTablesAvailable > 0)
-            {
-                destinationID = Random.Range(1, 5);
-                while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
-                {
-                    destinationID = Random.Range(1, 5);
-                }
-                for (int i = 0; i < numCustomer; i++)
-                {
 
-                    listDestinationID.Add(destinationID);
                 }
-                groupTablesAvailable--;
-            }
-            else {
-                destinationID = Random.Range(5, 8);
-                if (numCustomer == 1)
-                {
-                    for (int i = 4; i < 8; i++)
-                    {
-                        if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
-                        {
-                            destinationID = i+1;
-                            break;
-                        }
-                    }
-                    listDestinationID.Add(destinationID);
-                    counterSeatsAvailable--;
-                }
-                else
-                {
-                    for (int i = 4; i < 8; i++)
-                    {
-                        if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
-                        {
-                            destinationID = i+1;
-                            break;
-                        }
-                    }
-                    listDestinationID.Add(destinationID);
-                    listDestinationID.Add(destinationID + 1);
-                    counterSeatsAvailable-=2;
-                }
-
             }
         }
+        
         return listDestinationID;
     }
 

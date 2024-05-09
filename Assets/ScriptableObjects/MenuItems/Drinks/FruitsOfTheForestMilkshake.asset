@@ -17,4 +17,4 @@ MonoBehaviour:
   price: 2
   points: 12
   waitingTime: 5
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 2290c630a82a3524ba8b0bbec39dabfe, type: 3}

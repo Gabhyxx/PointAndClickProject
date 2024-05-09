@@ -33,5 +33,9 @@ public class SeatInfo : MonoBehaviour
         this.isEmpty = isEmpty;
     }
 
-    
+    public void SetRandomOrder()
+    {
+        order1 = UnityEngine.Random.Range(0, 16);
+        order2 = UnityEngine.Random.Range(16, 41);
+    }
 }

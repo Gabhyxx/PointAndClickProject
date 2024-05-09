@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2116348055566326582}
   m_Layer: 0
   m_Name: SeatCounter
-  m_TagString: Untagged
+  m_TagString: Table
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,6 +126,9 @@ MonoBehaviour:
   gameInfo: {fileID: 4065055573865623054, guid: d5706adba1386a544b7098de091b27cb,
     type: 3}
   isCounter: 1
+  spawnCustomers: {fileID: 0}
+  customerOnPlace: 0
+  playerOnTable: {fileID: 0}
 --- !u!1 &7531471976824961220
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +142,7 @@ GameObject:
   - component: {fileID: 5409076283392639698}
   m_Layer: 0
   m_Name: SeatDetection
-  m_TagString: Untagged
+  m_TagString: Table
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,8 +181,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.299136, y: 3.3530166, z: 1.3107687}
-  m_Center: {x: -0.14956793, y: 1.1765083, z: -0.15538345}
+  m_Size: {x: 1.299136, y: 3.3530166, z: 9.701519}
+  m_Center: {x: -0.14956793, y: 1.1765083, z: 3.5722616}
 --- !u!114 &5409076283392639698
 MonoBehaviour:
   m_ObjectHideFlags: 0

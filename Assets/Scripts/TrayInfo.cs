@@ -5,6 +5,7 @@ using UnityEngine;
 public class TrayInfo : MonoBehaviour
 {
     [SerializeField] int targetTable;
+    [SerializeField] bool isReady = false;
 
     public int GetTargetTable()
     {
@@ -14,6 +15,15 @@ public class TrayInfo : MonoBehaviour
     public void SetTargetTable(int targetTable)
     {
         this.targetTable = targetTable;
+    }
+
+    public bool GetIsReady()
+    {
+        return isReady;
+    }
+    public void SetIsReady(bool isReady)
+    {
+        this.isReady = isReady;
     }
 
     public List<ItemDisplay> GetItemsOnTray() {

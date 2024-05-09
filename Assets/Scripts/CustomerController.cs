@@ -24,6 +24,8 @@ public class CustomerController : MonoBehaviour
 
     public void SetDestination(int tableID)
     {
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         GetComponent<NavMeshAgent>().enabled = true;
         if (tableID == -1)
         {
@@ -49,10 +51,17 @@ public class CustomerController : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals("Customer") && Math.Abs(Quaternion.Angle(collision.gameObject.transform.rotation, transform.rotation)) > 90)
+        {
+            transform.position += new Vector3(1,0,0);
+        }
+        
+    }
+
     private void Start()
     {
         agent.SetDestination(destination);
     }
-
-    
 }
