@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 
 public class TableInfo : MonoBehaviour
@@ -13,6 +14,7 @@ public class TableInfo : MonoBehaviour
     [SerializeField] GameObject spawnCustomers;
     [SerializeField] bool customerOnPlace;
     [SerializeField] GameObject playerOnTable;
+    [SerializeField] bool isEating;
     
     public int GetId()
     {
@@ -41,7 +43,16 @@ public class TableInfo : MonoBehaviour
     {
         this.playerOnTable = playerOnTable;
     }
-    
+
+    public bool GetIsEating()
+    {
+        return isEating;
+    }
+    public void SetPlayerOnTable(bool isEating)
+    {
+        this.isEating = isEating;
+    }
+
     public void ReadyToOrder()
     {
         StartCoroutine(WaitOrder());
@@ -164,5 +175,87 @@ public class TableInfo : MonoBehaviour
             listSeats.Add(customer.transform.parent.gameObject);
         }
         return listSeats;
+    }
+
+    public void StartEating()
+    {
+        isEating = true;
+        StartCoroutine(Eating());
+    }
+
+    IEnumerator Eating()
+    {
+        float timeToWait = UnityEngine.Random.Range(60, 121);
+        Debug.Log("Comiendo durante " + timeToWait + " segundos");
+        yield return new WaitForSeconds(timeToWait);
+        if (!isCounter)
+        {
+            if (transform.GetChild(2).GetChild(1).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(2).GetChild(2).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(2).GetChild(1).GetChild(1).childCount > 0)
+            {
+                Destroy(transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(2).GetChild(1).GetChild(1).childCount > 0)
+            {
+                Destroy(transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(3).GetChild(1).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(3).GetChild(1).GetChild(0).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(3).GetChild(2).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(3).GetChild(2).GetChild(0).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(3).GetChild(1).GetChild(1).childCount > 0)
+            {
+                Destroy(transform.GetChild(3).GetChild(1).GetChild(1).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(3).GetChild(2).GetChild(1).childCount > 0)
+            {
+                Destroy(transform.GetChild(3).GetChild(2).GetChild(1).GetChild(0).gameObject);
+            }
+        } else
+        {
+            if (transform.GetChild(1).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(1).GetChild(0).GetChild(0).gameObject);
+            }
+            if (transform.GetChild(1).GetChild(1).childCount > 0)
+            {
+                Destroy(transform.GetChild(1).GetChild(1).GetChild(0).gameObject);
+            }
+        }
+        
+        Debug.Log("Se termino de comer");
+        StartCoroutine(WaitPay());
+        isEating =false;
+    }
+
+    IEnumerator WaitPay()
+    {
+        float timeCounter = 0;
+
+        Debug.Log("Mesa " + id + " lista para pagar");
+        while (timeCounter < 15)
+        {
+            timeCounter += Time.deltaTime;
+            if (playerOnTable != null && Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Cobrando");
+                CustomersLeave();
+                yield break;
+            }
+            yield return null;
+        }
+
+        CustomersLeave();
     }
 }

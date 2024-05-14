@@ -91,9 +91,10 @@ public class PlayerInteract : MonoBehaviour
 
     public void ServeToTable()
     {
+        GameObject table = gameInfo.GetComponent<GameInfo>().GetTables().ElementAt(serveTable - 1);
         for (int i = 0; i < listItems.Count; i++)
         {
-            SeatInfo[] currentSeats = gameInfo.GetComponent<GameInfo>().GetTables().ElementAt(serveTable - 1).GetComponentsInChildren<SeatInfo>();
+            SeatInfo[] currentSeats = table.GetComponentsInChildren<SeatInfo>();
             for (int j = 0; j < currentSeats.Length; j++)
             {
                 if (currentSeats[j].GetOrder1() == listItems.ElementAt(i).item.id)
@@ -118,6 +119,10 @@ public class PlayerInteract : MonoBehaviour
         }
         tray.GetComponent<TrayInfo>().SetTargetTable(-1);
         tray.GetComponent<TrayInfo>().SetIsReady(false);
+        if (!table.GetComponent<TableInfo>().GetIsEating())
+        {
+            table.GetComponent<TableInfo>().StartEating();
+        }
     }
 
     private void Update()
