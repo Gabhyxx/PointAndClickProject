@@ -90,6 +90,17 @@ public class CustomerSpawn : MonoBehaviour
                         }
                     }
                 }
+                if (destinationIDs.Count == 1)
+                {
+                    foreach (GameObject table in listTables)
+                    {
+                        if (table.GetComponent<TableInfo>().GetId() == destinationIDs[0])
+                        {
+                            table.GetComponent<TableInfo>().SetIsTaken(true);
+                        }
+                    }
+                }
+
             }
             time = Random.Range(10, 31);
             yield return new WaitForSeconds(time);

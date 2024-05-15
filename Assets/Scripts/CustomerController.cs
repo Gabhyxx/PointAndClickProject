@@ -13,6 +13,9 @@ public class CustomerController : MonoBehaviour
     [SerializeField] int tableID;
     private Vector3 destination;
 
+    [SerializeField] GameObject angrySprite;
+    [SerializeField] Transform mainCamera;
+
     public int GetTableID()
     {
         return tableID;
@@ -20,6 +23,10 @@ public class CustomerController : MonoBehaviour
     public void SetTableID(int tableID)
     {
         this.tableID = tableID;
+    }
+
+    public GameObject GetAngrySprite() { 
+        return angrySprite;
     }
 
     public void SetDestination(int tableID)
@@ -62,6 +69,12 @@ public class CustomerController : MonoBehaviour
 
     private void Start()
     {
+        mainCamera = Camera.main.gameObject.transform;
         agent.SetDestination(destination);
+    }
+
+    private void LateUpdate()
+    {
+        angrySprite.transform.LookAt(angrySprite.transform.position + mainCamera.forward);
     }
 }

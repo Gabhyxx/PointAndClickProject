@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.TerrainTools;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TableInfo : MonoBehaviour
 {
@@ -15,7 +16,9 @@ public class TableInfo : MonoBehaviour
     [SerializeField] bool customerOnPlace;
     [SerializeField] GameObject playerOnTable;
     [SerializeField] bool isEating;
-    
+    [SerializeField] GameObject hand;
+    [SerializeField] GameObject pay;
+
     public int GetId()
     {
         return id;
@@ -62,13 +65,14 @@ public class TableInfo : MonoBehaviour
     {
         float timeCounter = 0;
 
-        Debug.Log("Mesa " + id + " lista para pedir");
+        hand.SetActive(true);
         while (timeCounter < 60)
         {
             timeCounter += Time.deltaTime;
             if(playerOnTable != null && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("Tomando nota");
+                hand.SetActive(false);
                 List<int> tableOrders = new List<int>();
                 List<GameObject> listSeatsTable = GetListSeatsTable();
                 foreach (GameObject seat in listSeatsTable)
@@ -81,8 +85,8 @@ public class TableInfo : MonoBehaviour
             }
             yield return null;
         }
-        
-        CustomersLeave();
+        hand.SetActive(false);
+        CustomersLeave(true);
     }
 
     public List<GameObject> GetListCustomersTable()
@@ -116,24 +120,22 @@ public class TableInfo : MonoBehaviour
         }
         return listCustomersTable;
     }
-    private void CustomersLeave()
+    private void CustomersLeave(bool isAngry)
     {
         List<GameObject> listCustomersTable = GetListCustomersTable();
         foreach (GameObject customer in listCustomersTable)
         {
             customer.transform.position = tableDetector.transform.position;
             customer.GetComponent<CustomerController>().SetDestination(-1);
+            if(isAngry)
+            {
+                customer.GetComponent<CustomerController>().GetAngrySprite().SetActive(true);
+            }
         }
         gameInfo.SetGroupTablesAvailable(gameInfo.GetGroupTablesAvailable() + 1);
         isTaken = false;
         
-        foreach (GameObject customer in listCustomersTable)
-        {
-            customer.transform.position = tableDetector.transform.position;
-            customer.GetComponent<CustomerController>().SetDestination(-1);
-        }
-        gameInfo.SetCounterSeatsAvailable(gameInfo.GetCounterSeatsAvailable() + 1);
-        isTaken = false;
+        
         spawnCustomers.GetComponent<CustomerSpawn>().SetSeatsTaken(spawnCustomers.GetComponent<CustomerSpawn>().GetSeatsTaken()-listCustomersTable.Count);
         customerOnPlace = false;
         
@@ -244,18 +246,20 @@ public class TableInfo : MonoBehaviour
         float timeCounter = 0;
 
         Debug.Log("Mesa " + id + " lista para pagar");
+        pay.SetActive(true);
         while (timeCounter < 15)
         {
             timeCounter += Time.deltaTime;
             if (playerOnTable != null && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("Cobrando");
-                CustomersLeave();
+                pay.SetActive(false);
+                CustomersLeave(false);
                 yield break;
             }
             yield return null;
         }
-
-        CustomersLeave();
+        pay.SetActive(false);
+        CustomersLeave(true);
     }
 }
