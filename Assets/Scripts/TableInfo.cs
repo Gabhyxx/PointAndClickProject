@@ -18,6 +18,8 @@ public class TableInfo : MonoBehaviour
     [SerializeField] bool isEating;
     [SerializeField] GameObject hand;
     [SerializeField] GameObject pay;
+    [SerializeField] GameObject angry;
+    [SerializeField] int scoreOnHold = 0;
 
     public int GetId()
     {
@@ -69,7 +71,7 @@ public class TableInfo : MonoBehaviour
         while (timeCounter < 60)
         {
             timeCounter += Time.deltaTime;
-            if(playerOnTable != null && Input.GetMouseButtonDown(0))
+            if(playerOnTable != null && Input.GetMouseButtonDown(0) && playerOnTable.GetComponent<PlayerInfo>().GetIDTableNote()==-1)
             {
                 Debug.Log("Tomando nota");
                 hand.SetActive(false);
@@ -81,12 +83,26 @@ public class TableInfo : MonoBehaviour
                     tableOrders.Add(seat.GetComponent<SeatInfo>().GetOrder2());
                 }
                 playerOnTable.GetComponent<PlayerInfo>().WriteNotes(id, tableOrders);
+                
+                List<Item> listItems = gameInfo.GetItems();
+                foreach (int tableOrder in tableOrders)
+                {
+                    foreach(Item item in listItems)
+                    {
+                        if(tableOrder == item.id)
+                        {
+                            scoreOnHold += item.points;
+                        }
+                    }
+                }
+
                 yield break;
             }
             yield return null;
         }
         hand.SetActive(false);
-        CustomersLeave(true);
+        
+        CustomersLeave(true, -100);
     }
 
     public List<GameObject> GetListCustomersTable()
@@ -120,8 +136,9 @@ public class TableInfo : MonoBehaviour
         }
         return listCustomersTable;
     }
-    private void CustomersLeave(bool isAngry)
+    private void CustomersLeave(bool isAngry, int score)
     {
+        scoreOnHold = 0;
         List<GameObject> listCustomersTable = GetListCustomersTable();
         foreach (GameObject customer in listCustomersTable)
         {
@@ -130,6 +147,7 @@ public class TableInfo : MonoBehaviour
             if(isAngry)
             {
                 customer.GetComponent<CustomerController>().GetAngrySprite().SetActive(true);
+                gameInfo.SetScore(gameInfo.GetScore() + score);
             }
         }
         gameInfo.SetGroupTablesAvailable(gameInfo.GetGroupTablesAvailable() + 1);
@@ -249,17 +267,25 @@ public class TableInfo : MonoBehaviour
         pay.SetActive(true);
         while (timeCounter < 15)
         {
+            if (timeCounter >= 10)
+            {
+                pay.SetActive(false);
+                angry.SetActive(true);
+            }
             timeCounter += Time.deltaTime;
             if (playerOnTable != null && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("Cobrando");
+                gameInfo.SetScore(gameInfo.GetScore() + scoreOnHold);
                 pay.SetActive(false);
-                CustomersLeave(false);
+                angry.SetActive(false);
+                CustomersLeave(false, 0);
                 yield break;
             }
             yield return null;
         }
         pay.SetActive(false);
-        CustomersLeave(true);
+        angry.SetActive(false);
+        CustomersLeave(true, -250);
     }
 }

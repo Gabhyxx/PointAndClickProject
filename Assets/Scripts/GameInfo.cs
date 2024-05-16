@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameInfo : MonoBehaviour
@@ -10,6 +11,8 @@ public class GameInfo : MonoBehaviour
     [SerializeField] int groupTablesAvailable = 4;
     [SerializeField] int counterSeatsAvailable = 4;
     [SerializeField] int maxNumberOfSeatsUsed = -1;
+    [SerializeField] int score = 0;
+    [SerializeField] TextMeshProUGUI scoreText;
     public List<Item> GetItems()
     {
         return menuItems;
@@ -41,6 +44,14 @@ public class GameInfo : MonoBehaviour
     public void SetMaxNumberOfSeatsUsed(int maxNumberOfSetsUsed)
     {
         this.maxNumberOfSeatsUsed = maxNumberOfSetsUsed;
+    }
+
+    public int GetScore() { 
+        return score;
+    }
+    public void SetScore(int score)
+    {
+        this.score = score;
     }
 
     public List<int> DestinationCustomers(int numCustomer)
@@ -208,5 +219,10 @@ public class GameInfo : MonoBehaviour
     private void Awake()
     {
         maxNumberOfSeatsUsed = Random.Range(12, 20);
+    }
+
+    private void LateUpdate()
+    {
+        scoreText.text = "Score: " + score;
     }
 }
