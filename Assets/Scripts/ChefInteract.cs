@@ -8,7 +8,7 @@ using UnityEngine;
 public class ChefInteract : MonoBehaviour
 {
     [SerializeField] GameObject gameInfo;
-    [SerializeField] List<GameObject> spots = new List<GameObject>();
+    [SerializeField] List<GameObject> spots = new();
     private GameObject tray1;
     private GameObject playerPresent;
     private bool isCooking = false;
