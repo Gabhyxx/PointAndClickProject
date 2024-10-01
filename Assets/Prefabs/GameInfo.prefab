@@ -91,7 +91,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  groupTablesAvailable: 4
+  counterSeatsAvailable: 4
+  maxNumberOfSeatsUsed: -1
+  score: 0
+  scoreText: {fileID: 0}

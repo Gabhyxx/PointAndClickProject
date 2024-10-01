@@ -110,21 +110,21 @@ public class TableInfo : MonoBehaviour
         List<GameObject> listCustomersTable = new List<GameObject>();
         if (!isCounter)
         {
+            if (transform.GetChild(2).GetChild(0).childCount == 3)
+            {
+                listCustomersTable.Add(transform.GetChild(2).GetChild(0).GetChild(2).gameObject);
+            }
             if (transform.GetChild(2).GetChild(1).childCount == 3)
             {
                 listCustomersTable.Add(transform.GetChild(2).GetChild(1).GetChild(2).gameObject);
             }
-            if (transform.GetChild(2).GetChild(2).childCount == 3)
+            if (transform.GetChild(3).GetChild(0).childCount == 3)
             {
-                listCustomersTable.Add(transform.GetChild(2).GetChild(2).GetChild(2).gameObject);
+                listCustomersTable.Add(transform.GetChild(3).GetChild(0).GetChild(2).gameObject);
             }
             if (transform.GetChild(3).GetChild(1).childCount == 3)
             {
                 listCustomersTable.Add(transform.GetChild(3).GetChild(1).GetChild(2).gameObject);
-            }
-            if (transform.GetChild(3).GetChild(2).childCount == 3)
-            {
-                listCustomersTable.Add(transform.GetChild(3).GetChild(2).GetChild(2).gameObject);
             }
         }
         else
@@ -210,37 +210,37 @@ public class TableInfo : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
         if (!isCounter)
         {
+            if (transform.GetChild(2).GetChild(0).GetChild(0).childCount > 0)
+            {
+                Destroy(transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).gameObject);
+            }
             if (transform.GetChild(2).GetChild(1).GetChild(0).childCount > 0)
             {
                 Destroy(transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).gameObject);
             }
-            if (transform.GetChild(2).GetChild(2).GetChild(0).childCount > 0)
+            if (transform.GetChild(2).GetChild(0).GetChild(1).childCount > 0)
             {
-                Destroy(transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).gameObject);
+                Destroy(transform.GetChild(2).GetChild(0).GetChild(1).GetChild(0).gameObject);
             }
             if (transform.GetChild(2).GetChild(1).GetChild(1).childCount > 0)
             {
                 Destroy(transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).gameObject);
             }
-            if (transform.GetChild(2).GetChild(1).GetChild(1).childCount > 0)
+            if (transform.GetChild(3).GetChild(0).GetChild(0).childCount > 0)
             {
-                Destroy(transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).gameObject);
+                Destroy(transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).gameObject);
             }
             if (transform.GetChild(3).GetChild(1).GetChild(0).childCount > 0)
             {
                 Destroy(transform.GetChild(3).GetChild(1).GetChild(0).GetChild(0).gameObject);
             }
-            if (transform.GetChild(3).GetChild(2).GetChild(0).childCount > 0)
+            if (transform.GetChild(3).GetChild(0).GetChild(1).childCount > 0)
             {
-                Destroy(transform.GetChild(3).GetChild(2).GetChild(0).GetChild(0).gameObject);
+                Destroy(transform.GetChild(3).GetChild(0).GetChild(1).GetChild(0).gameObject);
             }
             if (transform.GetChild(3).GetChild(1).GetChild(1).childCount > 0)
             {
                 Destroy(transform.GetChild(3).GetChild(1).GetChild(1).GetChild(0).gameObject);
-            }
-            if (transform.GetChild(3).GetChild(2).GetChild(1).childCount > 0)
-            {
-                Destroy(transform.GetChild(3).GetChild(2).GetChild(1).GetChild(0).gameObject);
             }
         } else
         {
