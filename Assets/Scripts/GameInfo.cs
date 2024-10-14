@@ -8,8 +8,8 @@ public class GameInfo : MonoBehaviour
 {
     [SerializeField] List<Item> menuItems = new List<Item>();
     [SerializeField] List<GameObject> tables;
-    [SerializeField] int groupTablesAvailable = 4;
-    [SerializeField] int counterSeatsAvailable = 4;
+    [SerializeField] int groupTablesAvailable = 6;
+    [SerializeField] int counterSeatsAvailable = 0;
     [SerializeField] int maxNumberOfSeatsUsed = -1;
     [SerializeField] int score = 0;
     [SerializeField] TextMeshProUGUI scoreText;
@@ -76,7 +76,7 @@ public class GameInfo : MonoBehaviour
                 {
                     if (numCustomer == 1)
                     {
-                        if (IsSeatTypeCounter(75))
+                        if (IsSeatTypeCounter(0))
                         {
                             for (int i = 4; i < 8; i++)
                             {
@@ -93,7 +93,7 @@ public class GameInfo : MonoBehaviour
                         {
                             do
                             {
-                                destinationID = Random.Range(1, 5);
+                                destinationID = Random.Range(1, 7);
 
                             } while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0);
                             listDestinationID.Add(destinationID);
@@ -104,7 +104,7 @@ public class GameInfo : MonoBehaviour
                     }
                     else if (numCustomer == 2)
                     {
-                        if (IsSeatTypeCounter(40))
+                        if (IsSeatTypeCounter(0))
                         {
                             for (int i = 4; i < 7; i++)
                             {
@@ -120,7 +120,7 @@ public class GameInfo : MonoBehaviour
                         }
                         else
                         {
-                            destinationID = Random.Range(1, 5);
+                            destinationID = Random.Range(1, 7);
                             for (int i = 0; i < 4; i++)
                             {
                                 if (!tables.ElementAt(i).GetComponent<TableInfo>().GetIsTaken())
@@ -139,10 +139,10 @@ public class GameInfo : MonoBehaviour
                 }
                 else if (counterSeatsAvailable < numCustomer && groupTablesAvailable > 0)
                 {
-                    destinationID = Random.Range(1, 5);
+                    destinationID = Random.Range(1, 7);
                     while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
                     {
-                        destinationID = Random.Range(1, 5);
+                        destinationID = Random.Range(1, 7);
                     }
                     for (int i = 0; i < numCustomer; i++)
                     {
@@ -191,10 +191,10 @@ public class GameInfo : MonoBehaviour
 
     private int GetRandomAvailableTable(int numCustomer)
     {
-        int destinationID = Random.Range(1, 5);
+        int destinationID = Random.Range(1, 7);
         while (tables.ElementAt(destinationID - 1).GetComponent<TableInfo>().GetIsTaken() || groupTablesAvailable == 0)
         {
-            destinationID = Random.Range(1, 5);
+            destinationID = Random.Range(1, 7);
             if (groupTablesAvailable == 0)
             {
                 return -1;
@@ -218,7 +218,7 @@ public class GameInfo : MonoBehaviour
     }
     private void Awake()
     {
-        maxNumberOfSeatsUsed = Random.Range(12, 20);
+        maxNumberOfSeatsUsed = Random.Range(12, 24);
     }
 
     private void LateUpdate()

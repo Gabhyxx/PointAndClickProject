@@ -19,7 +19,7 @@ public class CustomerSpawn : MonoBehaviour
     }
     IEnumerator SpawnCustomers(float time)
     {
-        gameInfo.SetMaxNumberOfSeatsUsed(Random.Range(12,20));
+        gameInfo.SetMaxNumberOfSeatsUsed(Random.Range(12,24));
         yield return new WaitForSeconds(time);
         while (true) 
         {
@@ -37,7 +37,7 @@ public class CustomerSpawn : MonoBehaviour
                 int randomNumber;
                 if(seatsTaken < gameInfo.GetMaxNumberOfSeatsUsed())
                 {
-                    if (tablesTaken < 4)
+                    if (tablesTaken < 6)
                     {
                         if (gameInfo.GetMaxNumberOfSeatsUsed() - seatsTaken < 4)
                         {
@@ -65,7 +65,7 @@ public class CustomerSpawn : MonoBehaviour
                 {
                     GameObject customerInScene = Instantiate(customerPrefab, transform.GetChild(i));
                     customerInScene.GetComponent<CustomerController>().SetDestination(destinationIDs[i]);
-                    if (destinationIDs[i] > 4)
+                    if (destinationIDs[i] > 6)
                     {
                         foreach (GameObject table in listTables)
                         {

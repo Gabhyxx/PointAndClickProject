@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 650812578593216590}
   - component: {fileID: 849090614617011931}
   - component: {fileID: 5999493885311230516}
-  - component: {fileID: 7644436859702668385}
-  - component: {fileID: 3350793583716885956}
   m_Layer: 0
   m_Name: Table
   m_TagString: Table
@@ -69,56 +67,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
-  isTaken: 0
-  tableDetector: {fileID: 87477170302873101}
-  gameInfo: {fileID: 0}
-  isCounter: 0
-  spawnCustomers: {fileID: 0}
-  customerOnPlace: 0
-  playerOnTable: {fileID: 0}
-  isEating: 0
-  hand: {fileID: 4447177443431552436}
-  pay: {fileID: 2183506238662546221}
-  angry: {fileID: 2170532763231798425}
-  scoreOnHold: 0
---- !u!114 &7644436859702668385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671358824616397325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8e989ec6d02604f81c5f5d7f861d22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 2
-  isTaken: 0
-  tableDetector: {fileID: 87477170302873101}
-  gameInfo: {fileID: 0}
-  isCounter: 0
-  spawnCustomers: {fileID: 0}
-  customerOnPlace: 0
-  playerOnTable: {fileID: 0}
-  isEating: 0
-  hand: {fileID: 4447177443431552436}
-  pay: {fileID: 2183506238662546221}
-  angry: {fileID: 2170532763231798425}
-  scoreOnHold: 0
---- !u!114 &3350793583716885956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671358824616397325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8e989ec6d02604f81c5f5d7f861d22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 4
   isTaken: 0
   tableDetector: {fileID: 87477170302873101}
   gameInfo: {fileID: 0}
