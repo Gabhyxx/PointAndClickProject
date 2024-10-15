@@ -6,6 +6,7 @@ using UnityEngine;
 public class CustomerSpawn : MonoBehaviour
 {
     [SerializeField] GameObject customerPrefab;
+    [SerializeField] GameObject[] customersModel;
     [SerializeField] GameInfo gameInfo;
     [SerializeField] int seatsTaken = 0;
 
@@ -63,7 +64,9 @@ public class CustomerSpawn : MonoBehaviour
                 
                 for (int i = 0; i < randomNumber; i++)
                 {
+                    
                     GameObject customerInScene = Instantiate(customerPrefab, transform.GetChild(i));
+                    GameObject customerModelInScene = Instantiate(customersModel[Random.Range(0, 8)], customerInScene.transform);
                     customerInScene.GetComponent<CustomerController>().SetDestination(destinationIDs[i]);
                     if (destinationIDs[i] > 6)
                     {
