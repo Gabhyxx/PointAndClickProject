@@ -77,4 +77,21 @@ public class CustomerController : MonoBehaviour
     {
         angrySprite.transform.LookAt(angrySprite.transform.position + mainCamera.forward);
     }
+
+    private void FixedUpdate()
+    {
+        AnimatingCustomer();
+    }
+
+    private void AnimatingCustomer()
+    {
+        if (GetComponent<NavMeshAgent>().velocity != Vector3.zero)
+        {
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
+        } else
+        {
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
+        }
+       
+    }
 }
