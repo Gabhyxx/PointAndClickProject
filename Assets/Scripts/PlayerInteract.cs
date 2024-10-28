@@ -118,6 +118,7 @@ public class PlayerInteract : MonoBehaviour
 
         }
         tray.GetComponent<TrayInfo>().SetTargetTable(-1);
+        tray.GetComponent<MeshRenderer>().materials[1].color = new Color(0, 0, 0);
         tray.GetComponent<TrayInfo>().SetIsReady(false);
         if (!table.GetComponent<TableInfo>().GetIsEating())
         {

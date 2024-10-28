@@ -242,10 +242,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 707d42c993e9839438e5e8810b12d43c,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 707d42c993e9839438e5e8810b12d43c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a77a6e35f9b27e54d9ca9bb83da5d213, type: 2}
     - target: {fileID: 919132149155446097, guid: 707d42c993e9839438e5e8810b12d43c,
         type: 3}
       propertyPath: m_Name
       value: Tray
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 707d42c993e9839438e5e8810b12d43c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 707d42c993e9839438e5e8810b12d43c,
         type: 3}
@@ -307,6 +322,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTable: 0
   isReady: 0
+  outlinerMaterials:
+  - {fileID: 2100000, guid: a77a6e35f9b27e54d9ca9bb83da5d213, type: 2}
+  - {fileID: 2100000, guid: 7310c739d42592540b06bdc7bb083cfe, type: 2}
+  - {fileID: 2100000, guid: d485966f5e273474ea5d9a3ee2fc31d3, type: 2}
+  - {fileID: 2100000, guid: 410b7b6f2376ca64fb66662d47f9d262, type: 2}
+  - {fileID: 2100000, guid: 0a4d65f7b64e1924e955f2f168f91bcc, type: 2}
+  - {fileID: 2100000, guid: 7761487bf376c05449360a6cf8cb9a48, type: 2}
+  - {fileID: 2100000, guid: 582fd0e30e0b58b42a32dd08ea11a707, type: 2}
 --- !u!135 &4336367548161659101
 SphereCollider:
   m_ObjectHideFlags: 0
