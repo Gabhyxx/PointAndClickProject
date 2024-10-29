@@ -74,7 +74,7 @@ public class TableDetector : MonoBehaviour
             //transform.parent.gameObject.GetComponent<TableInfo>().ReadyToOrderDrink();
         }
         customer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-
+        customer.transform.GetChild(1).GetComponent<Animator>().SetBool("willSit", true);
 
     }
 

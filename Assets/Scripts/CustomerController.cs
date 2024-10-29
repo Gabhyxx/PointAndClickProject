@@ -94,4 +94,9 @@ public class CustomerController : MonoBehaviour
         }
        
     }
+    public void IsSat()
+    {
+        Debug.Log("Is sat called");
+        transform.GetChild(1).GetComponent<Animator>().SetBool("isSat", true);
+    }
 }

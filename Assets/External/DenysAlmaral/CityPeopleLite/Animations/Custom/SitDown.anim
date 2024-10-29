@@ -12326,4 +12326,12 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1
+    functionName: IsSat
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: fb562557cdd785e4f933d76d3f5da622,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
