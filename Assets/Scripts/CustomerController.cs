@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class CustomerController : MonoBehaviour
 {
@@ -94,9 +95,19 @@ public class CustomerController : MonoBehaviour
         }
        
     }
-    public void IsSat()
+
+    public IEnumerator GetUp(TableDetector tableDetector, bool isAngry, int score)
     {
-        Debug.Log("Is sat called");
-        transform.GetChild(1).GetComponent<Animator>().SetBool("isSat", true);
+        transform.GetChild(1).GetComponent<Animator>().SetBool("willSit", false);
+        yield return new WaitForSeconds(1f);
+        transform.position = tableDetector.transform.position;
+        GetComponent<CustomerController>().SetDestination(-1);
+        if (isAngry)
+        {
+            GetComponent<CustomerController>().GetAngrySprite().SetActive(true);
+            gameInfo.SetScore(gameInfo.GetScore() + score);
+        }
     }
+
+    
 }

@@ -142,13 +142,14 @@ public class TableInfo : MonoBehaviour
         List<GameObject> listCustomersTable = GetListCustomersTable();
         foreach (GameObject customer in listCustomersTable)
         {
-            customer.transform.position = tableDetector.transform.position;
+            StartCoroutine(customer.GetComponent<CustomerController>().GetUp(tableDetector, isAngry, score));
+            /*customer.transform.position = tableDetector.transform.position;
             customer.GetComponent<CustomerController>().SetDestination(-1);
             if(isAngry)
             {
                 customer.GetComponent<CustomerController>().GetAngrySprite().SetActive(true);
                 gameInfo.SetScore(gameInfo.GetScore() + score);
-            }
+            }*/
         }
         gameInfo.SetGroupTablesAvailable(gameInfo.GetGroupTablesAvailable() + 1);
         isTaken = false;
